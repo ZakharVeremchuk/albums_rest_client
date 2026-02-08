@@ -1,8 +1,6 @@
 package com.restclient.albums;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +16,17 @@ public class AlbumController {
 
     @GetMapping
     public List<Player> getPlayers() {
-        return this.footballClientService.getPlayers();
+        return footballClientService.getPlayers();
     }
+
+    @GetMapping("/{id}")
+    public Player getPlayer(@PathVariable("id") String id) {
+        return footballClientService.getPlayer(id).orElse(null);
+    }
+
+    @PostMapping
+    public Player savePlayer(@RequestBody Player player) {
+        return footballClientService.savePlayer(player);
+    }
+
 }

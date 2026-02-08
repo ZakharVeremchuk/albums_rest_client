@@ -31,4 +31,11 @@ public class FootballClientService {
                     return Optional.of(response.bodyTo(Player.class));
                 });
     }
+
+    public Player savePlayer(Player player) {
+        return restClient.post().uri("/players")
+                .body(player)
+                .retrieve()
+                .toEntity(Player.class).getBody();
+    }
 }
