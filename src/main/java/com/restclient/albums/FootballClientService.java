@@ -1,10 +1,15 @@
 package com.restclient.albums;
 
+import com.restclient.albums.exception.ResponseServerException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,9 +38,15 @@ public class FootballClientService {
     }
 
     public Player savePlayer(Player player) {
-        return restClient.post().uri("/players")
+        Player result = restClient.post().uri("/players")
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(player)
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, ((request, response) -> {
+                    //TODO: GET RESPONSE BODY
+                    throw new ResponseServerException(response.getStatusCode(), response.getHeaders());
+                }))
                 .toEntity(Player.class).getBody();
+        return result;
     }
 }
