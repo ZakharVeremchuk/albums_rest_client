@@ -5,4 +5,7 @@ curl http://localhost:8081/players
 <h2>Send request to football to get Player by id </h2>
 curl http://localhost:8081/players/1884823
 <h2>Add player</h2>
-curl -X POST http://localhost:8081/players -H "Content-Type:application/json" -d '{"jerseyNumber": 1, "name": "TestName", "position":"winger","dateOfBirth":"2023-11-04" }'
+<h3>Return bad request</h3>
+curl -X POST http://localhost:8081/players -H "Content-Type:application/json" -d '{"jerseyNumber": 1, "name": "TestName", "position":"winger","dateOfBirth":"2023-11-04"}'
+<h3>Return created player</h3>
+curl -X POST http://localhost:8081/players -H "Content-Type:application/json" -d '{"id":"test2", "jerseyNumber": 1, "name": "TestName", "position":"winger","dateOfBirth":"2023-11-04" }'
