@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatusCode;
 
 public class ResponseServerException extends RuntimeException {
 
-    public ResponseServerException(HttpStatusCode statusCode, HttpHeaders headers) {
-        super("Server return code is: " + statusCode.value() + ", headers: " + headers.values());
+    public ResponseServerException(HttpStatusCode statusCode, HttpHeaders headers, String message) {
+        super("Server return code is: " + statusCode.value() + ", headers: " + headers.values() + ", message: " + message);
     }
 }

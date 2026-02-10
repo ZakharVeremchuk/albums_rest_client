@@ -9,7 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,10 +45,14 @@ public class FootballClientService {
                 .body(player)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, ((request, response) -> {
-                    //TODO: GET RESPONSE BODY
-                    throw new ResponseServerException(response.getStatusCode(), response.getHeaders());
+                    String message = this.getMessageFromResponse(response.getBody());
+                    throw new ResponseServerException(response.getStatusCode(), response.getHeaders(), message);
                 }))
                 .toEntity(Player.class).getBody();
         return result;
+    }
+
+    public String getMessageFromResponse(InputStream body) throws IOException {
+        return new String(body.readAllBytes(), StandardCharsets.UTF_8);
     }
 }
