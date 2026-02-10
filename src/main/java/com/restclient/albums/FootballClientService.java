@@ -40,7 +40,7 @@ public class FootballClientService {
     }
 
     public Player savePlayer(Player player) {
-        Player result = restClient.post().uri("/players")
+        return restClient.post().uri("/players")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(player)
                 .retrieve()
@@ -49,7 +49,6 @@ public class FootballClientService {
                     throw new ResponseServerException(response.getStatusCode(), response.getHeaders(), message);
                 }))
                 .toEntity(Player.class).getBody();
-        return result;
     }
 
     public String getMessageFromResponse(InputStream body) throws IOException {

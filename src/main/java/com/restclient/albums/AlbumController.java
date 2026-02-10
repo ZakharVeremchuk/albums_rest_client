@@ -1,5 +1,7 @@
 package com.restclient.albums;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +27,9 @@ public class AlbumController {
     }
 
     @PostMapping
-    public Player savePlayer(@RequestBody Player player) {
-        return footballClientService.savePlayer(player);
+    public ResponseEntity<Player> savePlayer(@RequestBody Player player) {
+        Player result = footballClientService.savePlayer(player);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
 }
